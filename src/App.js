@@ -1,8 +1,14 @@
 import './App.css';
-import Ship from './components/Ship';
+import shipFactory from './factories/shipFactory';
+import gameboardFactory from './factories/gameboardFactory';
+import playerFactory from './factories/playerFactory';
 
 function App() {
-    return <div className="App">{console.log(Ship(5, [3, 2], false))}</div>;
+    return (
+        <div className="App">
+            <h1>BattleShip!</h1>
+        </div>
+    );
 }
 
 export default App;
