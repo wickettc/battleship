@@ -3,26 +3,33 @@ import gameboardFactory from '../factories/gameboardFactory';
 import './Gameboard.css';
 import _ from 'lodash';
 
-const GameBoard = () => {
+const GameBoard = ({ player }) => {
     const [board, setBoard] = useState({});
 
     useEffect(() => {
-        const gameboard = gameboardFactory();
+        const gameboard = gameboardFactory(player);
         setBoard(gameboard);
         console.log(gameboard);
-    }, []);
+    }, [player]);
 
     return (
         <div>
-            <div className="gameboard-grid-container">
-                {_.isEmpty(board)
-                    ? null
-                    : board.boardInfo.board.map((square, index) => {
-                          return (
-                              <div key={index} className="grid-square"></div>
-                          );
-                      })}
-            </div>
+            {_.isEmpty(board) ? null : (
+                <div>
+                    <h3>{player.playerInfo.name}</h3>
+                    <div className="gameboard-grid-container">
+                        {board.boardInfo.board.map((square, index) => {
+                            return (
+                                <div
+                                    key={index}
+                                    id={`${player}-${index}`}
+                                    className="grid-square"
+                                ></div>
+                            );
+                        })}
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

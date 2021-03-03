@@ -1,7 +1,6 @@
 const playerFactory = (name) => {
     const playerInfo = {
         name,
-        turn: false,
         pastShots: [],
     };
 
