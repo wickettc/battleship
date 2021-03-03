@@ -19,7 +19,6 @@ function App() {
     return (
         <div className="App">
             <h1>BattleShip!</h1>
-            {console.log(player1, player2)}
             {_.isEmpty(player1) && _.isEmpty(player2) ? null : (
                 <div className="app-gameboard-container">
                     <Gameboard player={player1} />

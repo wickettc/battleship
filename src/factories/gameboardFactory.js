@@ -19,16 +19,21 @@ const gameboardFactory = (ownerName) => {
     }
 
     const allShipsSunk = () => {
+        // loop through board
         for (let square of boardInfo.board) {
+            // check if square contains a ship
             if (square.ship !== false) {
+                // if it does check if square has been hit
                 if (square.beenHit === false) {
-                    console.log('ships are left');
+                    // as long as one sqaure with a ship
+                    // has not been hit there are still ships
                     boardInfo.shipsLeft = true;
                     return;
                 }
             }
         }
-        console.log('all ships are sunk');
+        // all squares with a ship have been hit
+        // there are no ships left
         boardInfo.shipsLeft = false;
     };
 
@@ -39,11 +44,11 @@ const gameboardFactory = (ownerName) => {
 
     const placeShip = (ship, startCoord) => {
         if (ship.isVertical) {
-            for (let i = 0; i < ship.length; i++) {
+            for (let i = 0; i < ship.shipLength; i++) {
                 boardInfo.board[startCoord + i * 10].ship = ship.id;
             }
         } else {
-            for (let i = 0; i < ship.length; i++) {
+            for (let i = 0; i < ship.shipLength; i++) {
                 boardInfo.board[startCoord + i].ship = ship.id;
             }
         }
