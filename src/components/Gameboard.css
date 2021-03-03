@@ -10,3 +10,7 @@
     width: 30px;
     border: 1px solid black;
 }
+
+.ship {
+    background: blue;
+}

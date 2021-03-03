@@ -1,4 +1,4 @@
-const shipFactory = (length, isVertical) => {
+const shipFactory = (id, length, isVertical) => {
     const hitLocations = Array(length);
 
     const hit = (position) => {
@@ -12,7 +12,7 @@ const shipFactory = (length, isVertical) => {
         return true;
     };
 
-    return { length, isVertical, hit, hitLocations, isSunk };
+    return { id, length, isVertical, hit, hitLocations, isSunk };
 };
 
 export default shipFactory;
