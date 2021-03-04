@@ -9,8 +9,17 @@
     height: 30px;
     width: 30px;
     border: 1px solid black;
+    background-color: blue;
+}
+
+.square-hover:hover {
+    background: lightgray;
 }
 
 .ship {
-    background: blue;
+    background: gray;
+}
+
+.hit {
+    background: red;
 }

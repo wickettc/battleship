@@ -4,13 +4,14 @@ import shipFactory from '../factories/shipFactory';
 import './Gameboard.css';
 import _ from 'lodash';
 
-const GameBoard = ({ player }) => {
+const GameBoard = ({ player, yourTurn, gameLoop }) => {
     const [board, setBoard] = useState({});
 
     useEffect(() => {
         // generate the 5 ships
         const ships = [];
         for (let i = 1; i < 6; i++) {
+            // ships can only be placed horizontally for the time
             ships.push(shipFactory(i, i, false));
         }
         // init the gameboard
@@ -43,6 +44,7 @@ const GameBoard = ({ player }) => {
                 (willBePlaced.includes(89) && willBePlaced.includes(90)) ||
                 willBePlaced.some((item) => item > 99)
             ) {
+                // restart the getRandom process if validation does not pass
                 willBePlaced.length = 0;
                 startCoord = getRandom();
                 for (let i = 0; i < ship.shipLength; i++) {
@@ -57,6 +59,31 @@ const GameBoard = ({ player }) => {
         setBoard(gameboard);
     }, [player]);
 
+    useEffect(() => {
+        if (!_.isEmpty(board)) {
+            if (
+                board.boardInfo.owner.playerInfo.name !== 'computer' &&
+                yourTurn
+            ) {
+                setTimeout(() => {
+                    board.receiveHit(board.boardInfo.owner.AI());
+                    gameLoop(
+                        board.boardInfo.shipsLeft,
+                        board.boardInfo.owner.playerInfo.name
+                    );
+                }, 500);
+            }
+        }
+    }, [yourTurn, board, gameLoop]);
+
+    const handleHitClick = (e) => {
+        board.receiveHit(e.target.id.split('-')[1]);
+        gameLoop(
+            board.boardInfo.shipsLeft,
+            board.boardInfo.owner.playerInfo.name
+        );
+    };
+
     return (
         <div>
             {_.isEmpty(board) ? null : (
@@ -66,10 +93,19 @@ const GameBoard = ({ player }) => {
                         {board.boardInfo.board.map((square, index) => {
                             return (
                                 <div
+                                    onClick={(e) => {
+                                        if (yourTurn) {
+                                            handleHitClick(e);
+                                        }
+                                    }}
                                     key={index}
                                     id={`${player.playerInfo.name}-${index}`}
                                     className={`${
                                         square.ship !== false ? 'ship' : ''
+                                    } ${square.beenHit ? 'hit' : ''} ${
+                                        player.playerInfo.name === 'computer'
+                                            ? 'square-hover'
+                                            : ''
                                     } grid-square`}
                                 ></div>
                             );
