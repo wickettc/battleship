@@ -2,9 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import Gameboard from './components/Gameboard';
 import WinnerBanner from './components/WinnerBanner';
-// import shipFactory from './factories/shipFactory';
 import playerFactory from './factories/playerFactory';
-// import gameboardFactory from './factories/gameboardFactory';
 import _ from 'lodash';
 
 function App() {
@@ -14,8 +12,8 @@ function App() {
     const [winner, setWinner] = useState(false);
 
     useEffect(() => {
-        setPlayer1(playerFactory('chase'));
-        setPlayer2(playerFactory('computer'));
+        setPlayer1(playerFactory('You'));
+        setPlayer2(playerFactory('Computer'));
         setP1Turn(false);
     }, []);
 
@@ -24,7 +22,7 @@ function App() {
             setP1Turn(!p1Turn);
         } else {
             // winner is going to be opposite player of winning board
-            curPlayer === 'computer' ? setWinner(player1) : setWinner(player2);
+            curPlayer === 'Computer' ? setWinner(player1) : setWinner(player2);
         }
     }
 

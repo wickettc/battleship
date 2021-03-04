@@ -61,10 +61,12 @@ const GameBoard = ({ player, yourTurn, gameLoop }) => {
 
     useEffect(() => {
         if (!_.isEmpty(board)) {
+            // runs computer AI selection if not the player
             if (
-                board.boardInfo.owner.playerInfo.name !== 'computer' &&
+                board.boardInfo.owner.playerInfo.name !== 'Computer' &&
                 yourTurn
             ) {
+                // slight delay to give effect of real opponent
                 setTimeout(() => {
                     board.receiveHit(board.boardInfo.owner.AI());
                     gameLoop(
@@ -77,11 +79,15 @@ const GameBoard = ({ player, yourTurn, gameLoop }) => {
     }, [yourTurn, board, gameLoop]);
 
     const handleHitClick = (e) => {
-        board.receiveHit(e.target.id.split('-')[1]);
-        gameLoop(
-            board.boardInfo.shipsLeft,
-            board.boardInfo.owner.playerInfo.name
-        );
+        let targetCoord = e.target.id.split('-')[1];
+        // does not allow user to select square more than once
+        if (!board.boardInfo.board[targetCoord].beenHit) {
+            board.receiveHit(e.target.id.split('-')[1]);
+            gameLoop(
+                board.boardInfo.shipsLeft,
+                board.boardInfo.owner.playerInfo.name
+            );
+        }
     };
 
     return (
@@ -101,13 +107,22 @@ const GameBoard = ({ player, yourTurn, gameLoop }) => {
                                     key={index}
                                     id={`${player.playerInfo.name}-${index}`}
                                     className={`${
-                                        square.ship !== false ? 'ship' : ''
-                                    } ${square.beenHit ? 'hit' : ''} ${
-                                        player.playerInfo.name === 'computer'
+                                        square.ship !== false &&
+                                        player.playerInfo.name !== 'Computer'
+                                            ? 'ship'
+                                            : ''
+                                    } ${
+                                        square.beenHit && square.ship
+                                            ? 'hit'
+                                            : ''
+                                    } ${
+                                        player.playerInfo.name === 'Computer'
                                             ? 'square-hover'
                                             : ''
                                     } grid-square`}
-                                ></div>
+                                >
+                                    {square.beenHit ? 'X' : ''}
+                                </div>
                             );
                         })}
                     </div>
