@@ -11,8 +11,10 @@ const GameBoard = ({ player, yourTurn, gameLoop }) => {
         // generate the 5 ships
         const ships = [];
         for (let i = 1; i < 6; i++) {
+            // randomize vertical/horizontal placement
+            let isVert = Math.round(Math.random() * 10) > 5;
             // ships can only be placed horizontally for the time
-            ships.push(shipFactory(i, i, false));
+            ships.push(shipFactory(i, i, isVert));
         }
         // init the gameboard
         const gameboard = gameboardFactory(player);
@@ -27,9 +29,16 @@ const GameBoard = ({ player, yourTurn, gameLoop }) => {
             let startCoord = getRandom();
             // squares that will be placed if ship is placed at current starting coord
             let willBePlaced = [];
-            for (let i = 0; i < ship.shipLength; i++) {
-                willBePlaced.push(startCoord + i);
+            if (ship.isVertical) {
+                for (let i = 0; i < ship.shipLength; i++) {
+                    willBePlaced.push(startCoord + i * 10);
+                }
+            } else {
+                for (let i = 0; i < ship.shipLength; i++) {
+                    willBePlaced.push(startCoord + i);
+                }
             }
+            console.log(willBePlaced);
             // checks to make sure placement will be valid
             while (
                 alreadyPlaced.some((item) => willBePlaced.includes(item)) ||
@@ -47,8 +56,14 @@ const GameBoard = ({ player, yourTurn, gameLoop }) => {
                 // restart the getRandom process if validation does not pass
                 willBePlaced.length = 0;
                 startCoord = getRandom();
-                for (let i = 0; i < ship.shipLength; i++) {
-                    willBePlaced.push(startCoord + i);
+                if (ship.isVertical) {
+                    for (let i = 0; i < ship.shipLength; i++) {
+                        willBePlaced.push(startCoord + i * 10);
+                    }
+                } else {
+                    for (let i = 0; i < ship.shipLength; i++) {
+                        willBePlaced.push(startCoord + i);
+                    }
                 }
             }
             gameboard.placeShip(ship, startCoord);
