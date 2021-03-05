@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Gameboard from '../components/Gameboard';
-import WinnerBanner from '../components/WinnerBanner';
 import playerFactory from '../factories/playerFactory';
 import PlayerForm from '../components/PlayerForm';
 
@@ -10,12 +9,12 @@ function GameContianer({
     isGame,
     setIsGame,
     setShowControls,
+    setWinner,
 }) {
     const [player1, setPlayer1] = useState({});
     const [player2, setPlayer2] = useState({});
     const [start, setStart] = useState(false);
     const [p1Turn, setP1Turn] = useState(null);
-    const [winner, setWinner] = useState(false);
 
     useEffect(() => {
         setPlayer2(playerFactory('Computer'));
@@ -36,7 +35,6 @@ function GameContianer({
 
     return (
         <div>
-            {winner ? <WinnerBanner player={winner} /> : null}
             {!start ? (
                 <PlayerForm setStart={setStart} setPlayer1={setPlayer1} />
             ) : (
