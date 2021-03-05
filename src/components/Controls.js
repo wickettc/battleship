@@ -1,9 +1,16 @@
 import React from 'react';
 
-const Controls = () => {
+const Controls = ({ setRestart, isGame, setIsGame }) => {
     return (
         <div>
-            <button>New Game</button>
+            <button
+                onClick={() => {
+                    setIsGame(false);
+                    setRestart(true);
+                }}
+            >
+                {isGame ? 'Restart' : 'Shuffle'}
+            </button>
         </div>
     );
 };

@@ -1,13 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import gameboardFactory from '../factories/gameboardFactory';
 import shipFactory from '../factories/shipFactory';
 import './Gameboard.css';
 import _ from 'lodash';
 
-const GameBoard = ({ player, yourTurn, gameLoop }) => {
+const GameBoard = ({
+    player,
+    yourTurn,
+    gameLoop,
+    start,
+    restart,
+    setRestart,
+    isGame,
+    setIsGame,
+}) => {
     const [board, setBoard] = useState({});
 
-    useEffect(() => {
+    const generateShipsOnBoard = useCallback(() => {
         // generate the 5 ships
         const ships = [];
         for (let i = 1; i < 6; i++) {
@@ -38,7 +47,6 @@ const GameBoard = ({ player, yourTurn, gameLoop }) => {
                     willBePlaced.push(startCoord + i);
                 }
             }
-            console.log(willBePlaced);
             // checks to make sure placement will be valid
             while (
                 alreadyPlaced.some((item) => willBePlaced.includes(item)) ||
@@ -74,6 +82,22 @@ const GameBoard = ({ player, yourTurn, gameLoop }) => {
         setBoard(gameboard);
     }, [player]);
 
+    // starts init game
+    useEffect(() => {
+        if (start) {
+            generateShipsOnBoard();
+        }
+    }, [start, generateShipsOnBoard]);
+
+    // allows restart function
+    useEffect(() => {
+        if (restart) {
+            setBoard({});
+            generateShipsOnBoard();
+            setRestart(false);
+        }
+    }, [restart, setRestart, generateShipsOnBoard]);
+
     useEffect(() => {
         if (!_.isEmpty(board)) {
             // runs computer AI selection if not the player
@@ -94,6 +118,7 @@ const GameBoard = ({ player, yourTurn, gameLoop }) => {
     }, [yourTurn, board, gameLoop]);
 
     const handleHitClick = (e) => {
+        if (!isGame) setIsGame(true);
         let targetCoord = e.target.id.split('-')[1];
         // does not allow user to select square more than once
         if (!board.boardInfo.board[targetCoord].beenHit) {
@@ -108,9 +133,9 @@ const GameBoard = ({ player, yourTurn, gameLoop }) => {
     return (
         <div>
             {_.isEmpty(board) ? null : (
-                <div>
-                    <h3>{player.playerInfo.name}</h3>
-                    <div className="gameboard-grid-container">
+                <div className={`${yourTurn ? '' : 'hide'}`}>
+                    <h3>{player.playerInfo.name}'s Board</h3>
+                    <div className={'gameboard-grid-container'}>
                         {board.boardInfo.board.map((square, index) => {
                             return (
                                 <div
