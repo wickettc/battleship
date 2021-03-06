@@ -21,7 +21,7 @@ const GameBoard = ({
         const ships = [];
         for (let i = 1; i < 6; i++) {
             // randomize vertical/horizontal placement
-            let isVert = Math.round(Math.random() * 10) > 5;
+            let isVert = Math.round(Math.random() * 10 + 1) > 5;
             // ships can only be placed horizontally for the time
             ships.push(shipFactory(i, i, isVert));
         }
@@ -107,7 +107,9 @@ const GameBoard = ({
             ) {
                 // slight delay to give effect of real opponent
                 setTimeout(() => {
-                    board.receiveHit(board.boardInfo.owner.AI());
+                    board.receiveHit(
+                        board.boardInfo.owner.AI(board.boardInfo.lastShot)
+                    );
                     gameLoop(
                         board.boardInfo.shipsLeft,
                         board.boardInfo.owner.playerInfo.name
@@ -118,6 +120,7 @@ const GameBoard = ({
     }, [yourTurn, board, gameLoop]);
 
     const handleHitClick = (e) => {
+        // first click sets game to true
         if (!isGame) setIsGame(true);
         let targetCoord = e.target.id.split('-')[1];
         // does not allow user to select square more than once
