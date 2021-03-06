@@ -16,6 +16,7 @@ function GameContianer({
     const [start, setStart] = useState(false);
     const [p1Turn, setP1Turn] = useState(null);
 
+    // sets players on start of game and shows restart button
     useEffect(() => {
         setPlayer2(playerFactory('Computer'));
         setP1Turn(false);
@@ -24,6 +25,7 @@ function GameContianer({
         }
     }, [start, setIsGame, setShowControls]);
 
+    // resets AI past shots on restart of game
     useEffect(() => {
         if (restart) {
             player1.resetPastShots();
@@ -37,6 +39,9 @@ function GameContianer({
         } else {
             // winner is going to be opposite player of winning board
             curPlayer === 'Computer' ? setWinner(player1) : setWinner(player2);
+            // resets AI shots on win
+            player1.resetPastShots();
+            setP1Turn(false);
         }
     }
 
