@@ -12,7 +12,7 @@ function App() {
 
     return (
         <div className="App">
-            {winner ? <WinnerBanner player={winner} /> : <h1>BattleShip!</h1>}
+            {winner ? <WinnerBanner player={winner} /> : <h1>BATTLESHIP</h1>}
             {showControls ? (
                 <Controls
                     isGame={isGame}

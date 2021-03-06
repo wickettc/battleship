@@ -1,8 +1,9 @@
 html,
 body {
-    background: lightgray;
+    background: rgb(174, 232, 255);
     margin: 0;
     padding: 0;
+    font-family: 'Tinos', serif;
 }
 
 .App {
@@ -12,16 +13,11 @@ body {
 .app-gameboard-container {
     display: flex;
     justify-content: center;
-    /* width: 100vw;
-    height: 80vh; */
 }
 
-/* @media only screen and (max-width: 768px) {
-    .app-gameboard-container {
-        flex-direction: column;
-        align-items: center;
-    }
-} */
+h1 {
+    font-size: 2.8rem;
+}
 
 input {
     padding: 5px 10px;
@@ -42,16 +38,16 @@ form {
 button {
     padding: 5px 10px;
     font-weight: 700;
-    border: 1px solid blue;
+    border: 1px solid black;
     border-radius: 5%;
-    color: blue;
+    color: black;
     background-color: transparent;
     transition: all 0.3s ease-in-out;
     cursor: pointer;
 }
 
 button:hover {
-    transform: scale(1.2);
+    transform: scale(1.1);
     border: 1px solid black;
     color: black;
     background-color: white;

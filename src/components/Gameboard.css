@@ -11,7 +11,7 @@
     height: 30px;
     width: 30px;
     border: 1px solid black;
-    background-color: blue;
+    background-color: #0981b1;
     color: white;
     display: flex;
     justify-content: center;
@@ -24,7 +24,7 @@
 }
 
 .ship {
-    background: gray;
+    background: rgb(82, 82, 82);
 }
 
 .hit {
