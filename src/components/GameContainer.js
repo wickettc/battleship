@@ -24,6 +24,13 @@ function GameContianer({
         }
     }, [start, setIsGame, setShowControls]);
 
+    useEffect(() => {
+        if (restart) {
+            player1.resetPastShots();
+            setP1Turn(false);
+        }
+    }, [restart, player1]);
+
     function gameLoop(checkWinner, curPlayer) {
         if (checkWinner) {
             setP1Turn(!p1Turn);

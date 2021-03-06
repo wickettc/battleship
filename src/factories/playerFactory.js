@@ -4,14 +4,28 @@ const playerFactory = (name) => {
         pastShots: [],
     };
 
-    const getRandom = (num) => {
+    const getRandomNum = (num) => {
         return Math.floor(Math.random() * num);
     };
 
+    const playRandomMove = () => {
+        let ranMove = getRandomNum(100);
+        while (playerInfo.pastShots.includes(ranMove)) {
+            ranMove = getRandomNum(100);
+        }
+        playerInfo.pastShots.push(ranMove);
+        return ranMove;
+    };
+
+    const resetPastShots = () => {
+        playerInfo.pastShots.length = 0;
+    };
+
     const AI = (lastShot) => {
+        // make AI shoot at adjacent squares if last shot was a hit
         if (lastShot.hit) {
             const figureNext = (lastShot) => {
-                let ranNum = getRandom(4);
+                let ranNum = getRandomNum(4);
                 let nextMove;
                 switch (ranNum) {
                     case 0:
@@ -32,29 +46,37 @@ const playerFactory = (name) => {
                 return nextMove;
             };
             let nextMove = figureNext(lastShot);
+            let timeOut = 0;
+            let whileTrue = true;
+
             while (
                 playerInfo.pastShots.includes(nextMove) ||
                 nextMove > 99 ||
                 nextMove < 0
             ) {
                 nextMove = figureNext(lastShot);
+                timeOut++;
+                if (timeOut === 50) {
+                    whileTrue = false;
+                    break;
+                }
             }
-            console.log(nextMove);
-            playerInfo.pastShots.push(nextMove);
-            return nextMove;
+            timeOut = 0;
+            if (!whileTrue) {
+                return playRandomMove();
+            } else {
+                playerInfo.pastShots.push(nextMove);
+                return nextMove;
+            }
         } else {
-            let ranMove = getRandom(100);
-            while (playerInfo.pastShots.includes(ranMove)) {
-                ranMove = getRandom(100);
-            }
-            playerInfo.pastShots.push(ranMove);
-            return ranMove;
+            return playRandomMove();
         }
     };
 
     return {
         playerInfo,
         AI,
+        resetPastShots,
     };
 };
 

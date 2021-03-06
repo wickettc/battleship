@@ -43,6 +43,7 @@ const gameboardFactory = (ownerName) => {
 
     const receiveHit = (coords) => {
         boardInfo.board[coords].beenHit = true;
+        // adds check for last shot to pass along to AI
         if (boardInfo.board[coords].ship !== false) {
             boardInfo.lastShot.hit = true;
             boardInfo.lastShot.location = coords;

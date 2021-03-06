@@ -1,9 +1,9 @@
 import shipFactory from './shipFactory';
 
-let firstShip = shipFactory(5);
+let firstShip = shipFactory(1, 5, false);
 
 test('create ship with length of 5', () => {
-    expect(firstShip.length).toBe(5);
+    expect(firstShip.shipLength).toBe(5);
 });
 
 firstShip.hit(0);
